@@ -79,7 +79,6 @@ class AddForm extends Component {
 }
 
 class EditForm extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
