@@ -1,3 +1,9 @@
+import axios from 'axios';
+
+export const FETCH_START = "FETCH_START";
+export const FETCH_SUCCESS = "FETCH_SUCESS";
+export const FETCH_FAILURE = "FETCH_FAILURE";
+
 /* 
   Action Types Go Here!
   Be sure to export each action type so you can pull it into your reducer
@@ -13,3 +19,93 @@
    U - updateSmurf
    D - deleteSmurf
 */
+
+
+const url = 'http://localhost:3333/smurfs';
+
+export const fetchSmurfs = () => dispatch => {
+  dispatch({
+    type: FETCH_START
+  });
+  axios
+    .get(url)
+    .then(({
+      data
+    }) => {
+      dispatch({
+        type: FETCH_SUCCESS,
+        payload: data
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: FETCH_FAILURE,
+        payload: err
+      })
+    })
+}
+
+export const addSmurf = newSmurf => dispatch => {
+  axios
+    .post(url, {
+      name: newSmurf.name,
+      age: newSmurf.age,
+      height: newSmurf.height
+    })
+    .then(({
+      data
+    }) => {
+      dispatch({
+        type: FETCH_SUCCESS,
+        payload: data
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: FETCH_FAILURE,
+        payload: err
+      })
+    })
+}
+
+export const editSmurf = (editedSmurf, id) => dispatch => {
+  axios
+    .put(`${url}/${id}`, {
+      name: editedSmurf.name,
+      age: editedSmurf.age,
+      height: editedSmurf.height,
+    })
+    .then(({
+      data
+    }) => {
+      dispatch({
+        type: FETCH_SUCCESS,
+        payload: data
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: FETCH_FAILURE,
+        payload: err
+      })
+    })
+}
+
+export const deleteSmurf = id => dispatch => {
+  axios
+    .delete(`${url}/${id}`)
+    .then(({
+      data
+    }) => {
+      dispatch({
+        type: FETCH_SUCCESS,
+        payload: data
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: FETCH_FAILURE,
+        payload: err
+      })
+    })
+}
